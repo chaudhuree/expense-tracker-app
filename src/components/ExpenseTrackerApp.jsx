@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ExpenseForm from "./ExpenseForm";
+import IncomeExpenseSummary from "./IncomeExpenseSummary";
 
 const initialData = {
   date: new Date(Date.now()).toISOString().slice(0, 10),
@@ -44,6 +45,7 @@ const ExpenseTrackerApp = () => {
       <h1>Expense Tracker App</h1>
       <ExpenseForm addData={addData} existingData={data} />
       {/* Display the data here */}
+      <div style={{background:"salmon",marginTop:"20px"}}>
       {data.map((entry) => (
         <div key={entry.date}>
           <h2>{entry.date}</h2>
@@ -59,7 +61,7 @@ const ExpenseTrackerApp = () => {
             ))}
           </ul>
           <h3>
-            Total Expense:{" "}
+            Total Expense:
             {entry.expense.reduce((acc, curr) => acc + curr.amount, 0)}
           </h3>
           <ul>
@@ -71,6 +73,13 @@ const ExpenseTrackerApp = () => {
           </ul>
         </div>
       ))}
+      </div>
+      {/*
+        summary show for last 30 days
+      */}
+      <div style={{background:"palegreen", marginTop:"20px"}}>
+      <IncomeExpenseSummary data={data} />
+      </div>
     </div>
   );
 };
