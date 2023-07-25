@@ -21,7 +21,7 @@ const IncomeDataForm = () => {
   };
 
   const handleDateChange = (selectedDate) => {
-    // console.log('selectedDate', selectedDate);
+    console.log('selectedDate', selectedDate);
     // selectedDate 2023-07-07
     setDate(selectedDate);
   };
