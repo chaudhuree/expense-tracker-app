@@ -15,7 +15,7 @@ const ExpenseForm = ({ addData, existingData }) => {
     if (purposeExpense && amountExpense) {
       addData(date, 'expense', purposeExpense, parseFloat(amountExpense));
     }
-    setDate(new Date(Date.now()).toISOString().slice(0, 10));
+    // setDate(new Date(Date.now()).toISOString().slice(0, 10));
     setPurposeIncome('');
     setAmountIncome('');
     setPurposeExpense('');

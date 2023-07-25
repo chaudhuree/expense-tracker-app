@@ -1,13 +1,13 @@
-import './App.css'
+import "./App.css";
+import ExpenseTrackerApp from "./components/ExpenseTrackerApp";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      
+      <ExpenseTrackerApp />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
