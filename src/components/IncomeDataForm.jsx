@@ -19,6 +19,8 @@ const IncomeDataForm = () => {
   };
 
   const handleDateChange = (selectedDate) => {
+    // console.log('selectedDate', selectedDate);
+    // selectedDate 2023-07-07
     setDate(selectedDate);
   };
 
@@ -38,7 +40,6 @@ const IncomeDataForm = () => {
         <label>
           Purpose (Income):
           <input
-
             type="text"
             value={purpose}
             onChange={(e) => setPurpose(e.target.value)}
@@ -47,14 +48,16 @@ const IncomeDataForm = () => {
         <label>
           Amount (Income):
           <input
-          disabled={purpose===""}
+            disabled={purpose === ""}
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
         </label>
       </div>
-      <button disabled={purpose==="" && amount===""} type="submit">Submit</button>
+      <button disabled={purpose === "" && amount === ""} type="submit">
+        Submit
+      </button>
 
       {/* Display existing data for the selected date */}
       {existingDataForSelectedDate && (

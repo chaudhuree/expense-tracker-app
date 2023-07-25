@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useContextData } from "../context/ExpenseTrackerContext";
+import React, { useState } from 'react';
+import { useContextData } from '../context/ExpenseTrackerContext';
 
 const DataDetails = () => {
   const { data } = useContextData();
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
@@ -23,13 +23,10 @@ const DataDetails = () => {
         <input type="date" value={selectedDate} onChange={handleDateChange} />
       </label>
 
-      {selectedData && (
+      {selectedData ? (
         <div>
           <h3>Date: {selectedData.date}</h3>
-          <h3>
-            Total Income: $
-            {selectedData.income.reduce((acc, curr) => acc + curr.amount, 0)}
-          </h3>
+          <h3>Total Income: ${selectedData.income.reduce((acc, curr) => acc + curr.amount, 0)}</h3>
           <table>
             <thead>
               <tr>
@@ -46,10 +43,7 @@ const DataDetails = () => {
               ))}
             </tbody>
           </table>
-          <h3>
-            Total Expense: $
-            {selectedData.expense.reduce((acc, curr) => acc + curr.amount, 0)}
-          </h3>
+          <h3>Total Expense: ${selectedData.expense.reduce((acc, curr) => acc + curr.amount, 0)}</h3>
           <table>
             <thead>
               <tr>
@@ -67,6 +61,8 @@ const DataDetails = () => {
             </tbody>
           </table>
         </div>
+      ) : (
+        <p>No data available for the selected date.</p>
       )}
     </div>
   );
