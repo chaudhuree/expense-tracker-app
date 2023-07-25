@@ -1,11 +1,16 @@
-import React from 'react';
+import React from "react";
+import { useContextData } from "../context/ExpenseTrackerContext";
 
-const IncomeExpenseSummary = ({ data }) => {
+const IncomeExpenseSummary = () => {
+  const { data } = useContextData();
+
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
   // Filter the data for the last 30 days
-  const filteredData = data.filter((entry) => new Date(entry.date) >= thirtyDaysAgo);
+  const filteredData = data.filter(
+    (entry) => new Date(entry.date) >= thirtyDaysAgo
+  );
 
   // Calculate total income and expense for the last 30 days
   let totalIncome = 0;
@@ -31,8 +36,12 @@ const IncomeExpenseSummary = ({ data }) => {
           {filteredData.map((entry) => (
             <tr key={entry.date}>
               <td>{entry.date}</td>
-              <td>${entry.income.reduce((acc, curr) => acc + curr.amount, 0)}</td>
-              <td>${entry.expense.reduce((acc, curr) => acc + curr.amount, 0)}</td>
+              <td>
+                ${entry.income.reduce((acc, curr) => acc + curr.amount, 0)}
+              </td>
+              <td>
+                ${entry.expense.reduce((acc, curr) => acc + curr.amount, 0)}
+              </td>
             </tr>
           ))}
         </tbody>

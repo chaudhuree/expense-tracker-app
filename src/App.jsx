@@ -1,11 +1,13 @@
 import "./App.css";
-import ExpenseTrackerApp from "./components/ExpenseTrackerApp";
+import ExpenseDataTracker from "./components/ExpenseDataTracker";
 
 function App() {
-
   return (
     <>
-      <ExpenseTrackerApp />
+      {/*
+       <ExpenseTrackerApp/> 
+     */}
+      <ExpenseDataTracker />
     </>
   );
 }
