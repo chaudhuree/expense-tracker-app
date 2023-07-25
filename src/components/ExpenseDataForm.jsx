@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useContextData } from "../context/ExpenseTrackerContext";
 
 const ExpenseDataForm = () => {
-  const { data, addData } = useContextData();
+  const { data, addData,removeData } = useContextData();
   const [date, setDate] = useState(
     new Date(Date.now()).toISOString().slice(0, 10)
   );
@@ -20,6 +20,11 @@ const ExpenseDataForm = () => {
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
+  };
+
+  const handleRemove = (index) => {
+    
+    removeData(date, "expense", index+1);
   };
 
   const existingDataForSelectedDate = data.find((item) => item.date === date);
@@ -76,9 +81,13 @@ const ExpenseDataForm = () => {
                   expenseEntry.amount !== 0
               )
               .map((expenseEntry, index) => (
-                <li key={index}>
+                <div key={index}>
+                  <li >
                   Purpose: {expenseEntry.purpose}, Amount: {expenseEntry.amount}
-                </li>
+                  </li>
+                  <button onClick={() => handleRemove(index)}>Remove</button>
+               
+                </div>
               ))}
           </ul>
         </div>

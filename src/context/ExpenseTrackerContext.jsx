@@ -40,8 +40,42 @@ const ExpenseTrackerProvider = ({ children }) => {
     setData(newData);
   };
 
+  // remove data
+  // const removeData = (date, type, index) => {
+  //   const newData = [...data];
+  //   const existingData = newData.find((item) => item.date === date);
+
+  //   if (type === 'income') {
+  //     existingData.income.splice(index, 1);
+  //   } else if (type === 'expense') {
+  //     existingData.expense.splice(index, 1);
+  //   }
+
+  //   setData(newData);
+  // };
+  const removeData = (date, type, index) => {
+    const newData = data.map((entry) => {
+      if (entry.date === date) {
+        if (type === 'income') {
+          return {
+            ...entry,
+            income: entry.income.filter((_, idx) => idx !== index),
+          };
+        } else if (type === 'expense') {
+          return {
+            ...entry,
+            expense: entry.expense.filter((_, idx) => idx !== index),
+          };
+        }
+      }
+      return entry;
+    });
+
+    setData(newData);
+  };
+
   return (
-    <ExpenseTrackerContext.Provider value={{ data, addData }}>
+    <ExpenseTrackerContext.Provider value={{ data, addData,removeData }}>
       {children}
     </ExpenseTrackerContext.Provider>
   );

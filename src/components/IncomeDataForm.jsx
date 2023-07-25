@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useContextData } from "../context/ExpenseTrackerContext";
 
 const IncomeDataForm = () => {
-  const { data, addData } = useContextData();
+  const { data, addData, removeData } = useContextData();
+
   const [date, setDate] = useState(
     new Date(Date.now()).toISOString().slice(0, 10)
   );
@@ -24,6 +25,10 @@ const IncomeDataForm = () => {
     setDate(selectedDate);
   };
 
+  const handleRemove = (index) => {
+    
+    removeData(date, "income", index+1);
+  };
   const existingDataForSelectedDate = data.find((item) => item.date === date);
 
   return (
@@ -79,9 +84,12 @@ const IncomeDataForm = () => {
                   incomeEntry.purpose.trim() !== "" && incomeEntry.amount !== 0
               )
               .map((incomeEntry, index) => (
-                <li key={index}>
-                  Purpose: {incomeEntry.purpose}, Amount: {incomeEntry.amount}
-                </li>
+                <div key={index}>
+                  <li>
+                    Purpose: {incomeEntry.purpose}, Amount: {incomeEntry.amount}
+                  </li>
+                  <button onClick={() => handleRemove(index)}>Remove</button>
+                </div>
               ))}
           </ul>
         </div>
