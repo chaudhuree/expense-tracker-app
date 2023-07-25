@@ -9,13 +9,12 @@ const ExpenseForm = ({ addData, existingData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (purposeIncome && amountIncome) {
+    if (purposeIncome.trim() !== '' && amountIncome.trim() !== '') {
       addData(date, 'income', purposeIncome, parseFloat(amountIncome));
     }
-    if (purposeExpense && amountExpense) {
+    if (purposeExpense.trim() !== '' && amountExpense.trim() !== '') {
       addData(date, 'expense', purposeExpense, parseFloat(amountExpense));
     }
-    // setDate(new Date(Date.now()).toISOString().slice(0, 10));
     setPurposeIncome('');
     setAmountIncome('');
     setPurposeExpense('');
@@ -25,7 +24,9 @@ const ExpenseForm = ({ addData, existingData }) => {
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
   };
+
   const existingDataForSelectedDate = existingData.find((item) => item.date === date);
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -60,19 +61,23 @@ const ExpenseForm = ({ addData, existingData }) => {
           <h2>Existing Data for {new Date(date).toISOString().slice(0, 10)}:</h2>
           <h3>Total Income: {existingDataForSelectedDate.income.reduce((acc, curr) => acc + curr.amount, 0)}</h3>
           <ul>
-            {existingDataForSelectedDate.income.map((incomeEntry, index) => (
-              <li key={index}>
-                Purpose: {incomeEntry.purpose}, Amount: {incomeEntry.amount}
-              </li>
-            ))}
+            {existingDataForSelectedDate.income
+              .filter((entry) => entry.purpose.trim() !== '' && entry.amount !== 0)
+              .map((incomeEntry, index) => (
+                <li key={index}>
+                  Purpose: {incomeEntry.purpose}, Amount: {incomeEntry.amount}
+                </li>
+              ))}
           </ul>
           <h3>Total Expense: {existingDataForSelectedDate.expense.reduce((acc, curr) => acc + curr.amount, 0)}</h3>
           <ul>
-            {existingDataForSelectedDate.expense.map((expenseEntry, index) => (
-              <li key={index}>
-                Purpose: {expenseEntry.purpose}, Amount: {expenseEntry.amount}
-              </li>
-            ))}
+            {existingDataForSelectedDate.expense
+              .filter((entry) => entry.purpose.trim() !== '' && entry.amount !== 0)
+              .map((expenseEntry, index) => (
+                <li key={index}>
+                  Purpose: {expenseEntry.purpose}, Amount: {expenseEntry.amount}
+                </li>
+              ))}
           </ul>
         </div>
       )}
