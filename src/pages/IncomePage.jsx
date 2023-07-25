@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import IncomeDataForm from "../components/IncomeDataForm";
 
 export default function IncomePage() {
   return (
-    <div>IncomePage</div>
-  )
+    <div>
+      <IncomeDataForm />
+    </div>
+  );
 }

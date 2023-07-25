@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 const ExpenseTrackerContext = createContext();
 
 const initialData = {
-  date: new Date(Date.now()).toISOString().slice(0, 10),
+  date: "",
   income: [{ purpose: "", amount: 0 }],
   expense: [{ purpose: "", amount: 0 }]
 };

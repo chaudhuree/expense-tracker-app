@@ -7,6 +7,7 @@ const IncomeDataForm = () => {
   const [date, setDate] = useState(
     new Date(Date.now()).toISOString().slice(0, 10)
   );
+
   const [purpose, setPurpose] = useState("");
   const [amount, setAmount] = useState("");
 
@@ -26,8 +27,8 @@ const IncomeDataForm = () => {
   };
 
   const handleRemove = (index) => {
-    
-    removeData(date, "income", index+1);
+
+    removeData(date, "income", index);
   };
   const existingDataForSelectedDate = data.find((item) => item.date === date);
 
