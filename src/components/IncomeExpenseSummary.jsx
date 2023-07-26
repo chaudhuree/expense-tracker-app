@@ -1,6 +1,6 @@
+import { Table } from "antd";
 import React from "react";
 import { useContextData } from "../context/ExpenseTrackerContext";
-
 const IncomeExpenseSummary = () => {
   const { data } = useContextData();
 
@@ -21,38 +21,61 @@ const IncomeExpenseSummary = () => {
     totalExpense += entry.expense.reduce((acc, curr) => acc + curr.amount, 0);
   });
 
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Income",
+      dataIndex: "income",
+      sorter: {
+        compare: (a, b) => a.income - b.income,
+        multiple: 2,
+      },
+    },
+    {
+      title: "Expenses",
+      dataIndex: "expenses",
+      sorter: {
+        compare: (a, b) => a.amount - b.amount,
+        multiple: 2,
+      },
+    },
+  ];
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+  const allData = filteredData.map((entry) =>
+    ({
+      date: entry.date,
+      income: entry?.income.reduce((acc, curr) => acc + curr.amount, 0),
+      expenses: entry?.expense.reduce((acc, curr) => acc + curr.amount, 0),
+    })
+  );
   return (
-    <div>
-      <h2>Income and Expense Summary for Last 30 Days</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Income</th>
-            <th>Expense</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((entry) => (
-            <tr key={entry.date}>
-              <td>{entry.date}</td>
-              <td>
-                ${entry.income.reduce((acc, curr) => acc + curr.amount, 0)}
-              </td>
-              <td>
-                ${entry.expense.reduce((acc, curr) => acc + curr.amount, 0)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>Total</td>
-            <td>${totalIncome}</td>
-            <td>${totalExpense}</td>
-          </tr>
-        </tfoot>
-      </table>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <div className="row text-center heading justify-content-center items-center mb-3">
+            <div className="col">
+              <h1 className="white-text"> Data Of Last 30 Days</h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <Table
+                columns={columns}
+                dataSource={allData}
+                onChange={onChange}
+                pagination={{
+                  pageSize: 10,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

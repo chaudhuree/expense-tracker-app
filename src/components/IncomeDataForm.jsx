@@ -1,101 +1,174 @@
 import React, { useState } from "react";
+import { DatePicker, Table } from "antd";
+import { Button, Form, Input } from "antd";
+import { Col, Row } from "antd";
 import { useContextData } from "../context/ExpenseTrackerContext";
 
 const IncomeDataForm = () => {
   const { data, addData, removeData } = useContextData();
-
+  const [form] = Form.useForm();
   const [date, setDate] = useState(
     new Date(Date.now()).toISOString().slice(0, 10)
   );
-
-  const [purpose, setPurpose] = useState("");
-  const [amount, setAmount] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (purpose.trim() !== "" && amount.trim() !== "") {
-      addData(date, "income", purpose, parseFloat(amount));
-      setPurpose("");
-      setAmount("");
+  const columns = [
+    {
+      title: "Purpose",
+      dataIndex: "purpose",
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      sorter: {
+        compare: (a, b) => a.amount - b.amount,
+        multiple: 2,
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+    },
+  ];
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+  const handleDateChange = (date, dateString) => {
+    if (dateString) {
+      setDate(dateString);
     }
   };
-
-  const handleDateChange = (selectedDate) => {
-    console.log('selectedDate', selectedDate);
-    // selectedDate 2023-07-07
-    setDate(selectedDate);
+  const onFinish = (values) => {
+    const { purpose, amount } = values;
+    if (purpose.trim() !== "" && amount.trim() !== "") {
+      addData(date, "income", purpose, parseFloat(amount));
+      form.resetFields();
+    }
   };
-
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   const handleRemove = (index) => {
-
     removeData(date, "income", index);
   };
   const existingDataForSelectedDate = data.find((item) => item.date === date);
+  // console.log("existingDataForSelectedDate", existingDataForSelectedDate);
+  const incomeData = existingDataForSelectedDate?.income
+    .filter(
+      (incomeEntry) =>
+        incomeEntry.purpose.trim() !== "" && incomeEntry.amount !== 0
+    )
+    .map((incomeEntry, index) => ({
+      key: index,
+      purpose: incomeEntry.purpose,
+      amount: Number(incomeEntry.amount),
+      action: <Button onClick={() => handleRemove(index)}>Remove</Button>,
+    }));
+  console.log("incomeData", incomeData);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Date:
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => handleDateChange(e.target.value)}
-        />
-      </label>
-      <div>
-        <label>
-          Purpose (Income):
-          <input
-            type="text"
-            value={purpose}
-            onChange={(e) => setPurpose(e.target.value)}
-          />
-        </label>
-        <label>
-          Amount (Income):
-          <input
-            disabled={purpose === ""}
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </label>
-      </div>
-      <button disabled={purpose === "" && amount === ""} type="submit">
-        Submit
-      </button>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <div className="row text-center heading justify-content-center items-center mb-3">
+            <div className="col">
+              <h1 className="white-text"> Income Entry</h1>
+            </div>
+          </div>
+          <div className="row">
+            <Row>
+              <Col
+                span={12}
+                offset={6}
+                className="justify-content-center text-center"
+              >
+                <DatePicker size="large" onChange={handleDateChange} />
+              </Col>
+            </Row>
+          </div>
+          <div className="row py-5">
+            <div className="col">
+              <Row>
+                <Col span={18} offset={3}>
+                  <Form
+                    form={form}
+                    name="incomeDetails"
+                    labelCol={{
+                      span: 4,
+                    }}
+                    wrapperCol={{
+                      span: 16,
+                    }}
+                    initialValues={{ autoComplete: "off" }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                  >
+                    <Form.Item
+                      label="Purpose"
+                      name="purpose"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please insert the source of money",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
 
-      {/* Display existing data for the selected date */}
-      {existingDataForSelectedDate && (
-        <div>
-          <h2>
-            Existing Data for {new Date(date).toISOString().slice(0, 10)}:
-          </h2>
-          <h3>
-            Total Income: $
-            {existingDataForSelectedDate.income.reduce(
-              (acc, curr) => acc + curr.amount,
-              0
+                    <Form.Item
+                      label="Amount"
+                      name="amount"
+                      rules={[
+                        {
+                          required: true,
+                          message: "How much money did you get!",
+                        },
+                      ]}
+                    >
+                      <Input type="number" />
+                    </Form.Item>
+
+                    <Form.Item
+                      wrapperCol={{
+                        offset: 5,
+                        span: 14,
+                      }}
+                    >
+                      <Button
+                        className="w-100"
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        Submit
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Col>
+              </Row>
+            </div>
+          </div>
+          <div className="row">
+            {existingDataForSelectedDate && (
+              <div className="col">
+                <h3 className="text-total">
+                  Total Income: tk &nbsp;
+                  {existingDataForSelectedDate?.income.reduce(
+                    (acc, curr) => acc + curr.amount,
+                    0
+                  )}
+                </h3>
+                <Table
+                  columns={columns}
+                  dataSource={incomeData}
+                  onChange={onChange}
+                  pagination={false}
+                />
+              </div>
             )}
-          </h3>
-          <ul>
-            {existingDataForSelectedDate.income
-              .filter(
-                (incomeEntry) =>
-                  incomeEntry.purpose.trim() !== "" && incomeEntry.amount !== 0
-              )
-              .map((incomeEntry, index) => (
-                <div key={index}>
-                  <li>
-                    Purpose: {incomeEntry.purpose}, Amount: {incomeEntry.amount}
-                  </li>
-                  <button onClick={() => handleRemove(index)}>Remove</button>
-                </div>
-              ))}
-          </ul>
+          </div>
         </div>
-      )}
-    </form>
+      </div>
+    </div>
   );
 };
 

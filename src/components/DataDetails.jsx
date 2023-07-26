@@ -15,10 +15,8 @@ const DataDetails = () => {
   };
 
   const selectedData = getDataForSelectedDate();
-  console.log('selectedData', selectedData);
-  
-  
-  
+  // console.log('selectedData', selectedData);
+
   const columns = [
     {
       title: "Purpose",
@@ -28,27 +26,31 @@ const DataDetails = () => {
       title: "Amount",
       dataIndex: "amount",
       sorter: {
-        compare: (a, b) => a - b,
+        compare: (a, b) => a.amount - b.amount,
         multiple: 2,
       },
     },
   ];
-  const incomeData = selectedData?.income?.filter((item) => item.amount !== 0).map((incomeEntry, index) => ({
-    key: index,
-    purpose: incomeEntry.purpose,
-    amount: incomeEntry.amount,
-  }));
-  const expenseData = selectedData?.expense?.filter(item=>item.amount!==0).map((expenseEntry, index) => ({
-    key: index,
-    purpose: expenseEntry.purpose,
-    amount: expenseEntry.amount,
-  }));
+  const incomeData = selectedData?.income
+    ?.filter((item) => item.amount !== 0)
+    .map((incomeEntry, index) => ({
+      key: index,
+      purpose: incomeEntry.purpose,
+      amount: incomeEntry.amount,
+    }));
+  const expenseData = selectedData?.expense
+    ?.filter((item) => item.amount !== 0)
+    .map((expenseEntry, index) => ({
+      key: index,
+      purpose: expenseEntry.purpose,
+      amount: expenseEntry.amount,
+    }));
 
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
   return (
-    <div className="container">
+    <div className="container data-details">
       <div className="row text-center heading justify-content-center items-center mb-3">
         <div className="col">
           <h1 className="white-text"> Data Details</h1>
@@ -63,12 +65,12 @@ const DataDetails = () => {
       {selectedData ? (
         <div className="row data-showcase d-flex justify-content-center">
           <div className="col">
-            <h3 className="text-center text-white">
+            <h3 className="text-center text-main">
               Date:
               <span className="date-text mx-2">{selectedData.date}</span>
             </h3>
             <p className="text-total">
-              Total Income:  Tk &nbsp;
+              Total Income: Tk &nbsp;
               {selectedData.income.reduce((acc, curr) => acc + curr.amount, 0)}
             </p>
             <Table
@@ -77,24 +79,7 @@ const DataDetails = () => {
               onChange={onChange}
               pagination={false}
             />
-            {/*
-             <table>
-               <thead>
-                 <tr>
-                   <th>Purpose</th>
-                   <th>Amount</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 {selectedData.income.map((incomeEntry, index) => (
-                   <tr key={index}>
-                     <td>{incomeEntry.purpose}</td>
-                     <td>${incomeEntry.amount}</td>
-                   </tr>
-                 ))}
-               </tbody>
-             </table> 
-            */}
+
             <p className="text-total mt-5">
               Total Expense: Tk &nbsp;
               {selectedData.expense.reduce((acc, curr) => acc + curr.amount, 0)}
@@ -104,31 +89,15 @@ const DataDetails = () => {
               dataSource={expenseData}
               onChange={onChange}
               pagination={false}
+              size="small"
             />
-            {/*
-             <table>
-               <thead>
-                 <tr>
-                   <th>Purpose</th>
-                   <th>Amount</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 {selectedData.expense.map((expenseEntry, index) => (
-                   <tr key={index}>
-                     <td>{expenseEntry.purpose}</td>
-                     <td>${expenseEntry.amount}</td>
-                   </tr>
-                 ))}
-               </tbody>
-             </table> 
-            */}
           </div>
         </div>
       ) : (
-        <p className="text-center fw-bold text-danger px-5 py-5">No data available for the selected date.</p>
+        <p className="text-center fw-bold text-danger px-5 py-5">
+          No data available for the selected date.
+        </p>
       )}
-      
     </div>
   );
 };
