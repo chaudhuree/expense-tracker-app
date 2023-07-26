@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-
+import { useLocalStorage } from "../hook/localStoregeHook";
 const ExpenseTrackerContext = createContext();
 
 const initialData = {
@@ -9,7 +9,8 @@ const initialData = {
 };
 
 const ExpenseTrackerProvider = ({ children }) => {
-  const [data, setData] = useState([initialData]);
+  // const [data, setData] = useState([initialData]);
+  const [data,setData]=useLocalStorage("expense-tracker",[initialData]);
 
   const addData = (date, type, purpose, amount) => {
     const newData = [...data];
