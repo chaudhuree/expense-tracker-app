@@ -81,3 +81,27 @@ body {
 .nav-link.active {
   color: #2a4278 !important;
 }
+
+.form-button{
+  margin-left: 9px !important;
+}
+@media (min-width: 575px) and (max-width: 767px) {
+  .form-button{
+    margin-left: 72px !important;
+  }
+}
+@media (min-width: 767px) and (max-width: 991px) {
+  .form-button{
+    margin-left: 93px !important;
+  }
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  .form-button{
+    margin-left: 122px !important;
+  }
+}
+@media (min-width: 1099px) and (max-width: 1389px) {
+  .form-button{
+    margin-left: 147px !important;
+  }
+}

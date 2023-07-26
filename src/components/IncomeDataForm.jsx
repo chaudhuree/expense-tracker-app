@@ -129,13 +129,10 @@ const IncomeDataForm = () => {
                     </Form.Item>
 
                     <Form.Item
-                      wrapperCol={{
-                        offset: 5,
-                        span: 14,
-                      }}
+                     
                     >
                       <Button
-                        className="w-100"
+                        className="w-100 form-button"
                         type="primary"
                         htmlType="submit"
                       >
