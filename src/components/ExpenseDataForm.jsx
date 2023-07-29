@@ -19,8 +19,7 @@ const ExpenseDataForm = () => {
       title: "Amount",
       dataIndex: "amount",
       sorter: {
-        compare: (a, b) => a.amount - b.amount,
-        multiple: 2,
+        compare: (a, b) => a.amount - b.amount
       },
     },
     {
@@ -129,13 +128,10 @@ const ExpenseDataForm = () => {
                     </Form.Item>
 
                     <Form.Item
-                      wrapperCol={{
-                        offset: 5,
-                        span: 14,
-                      }}
+                    
                     >
                       <Button
-                        className="w-100"
+                        className="w-100 form-button"
                         type="primary"
                         htmlType="submit"
                       >
@@ -161,7 +157,9 @@ const ExpenseDataForm = () => {
                   columns={columns}
                   dataSource={expenseData}
                   onChange={onChange}
-                  pagination={false}
+                  pagination={{
+                    pageSize: 4,
+                  }}
                 />
               </div>
             )}

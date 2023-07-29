@@ -1,7 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useClearLocalStorage } from "../hook/localStoregeHook";
 
 export default function Navbar() {
+  const clearAllExpenseHistory = useClearLocalStorage();
+  const navigate = useNavigate();
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light py-3 static-top">
@@ -23,21 +26,50 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <NavLink to="/income" className="nav-link " aria-current="page" href="#">
+                <NavLink
+                  to="/income"
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                >
                   Income
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/expense" className="nav-link " aria-current="page" href="#">
+                <NavLink
+                  to="/expense"
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                >
                   Expense
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/summary" className="nav-link " aria-current="page" href="#">
+                <NavLink
+                  to="/summary"
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                >
                   Summary
                 </NavLink>
               </li>
-              </ul>
+              <l className="nav-item">
+                <button
+                  onClick={() => {
+                    clearAllExpenseHistory("expense-tracker");
+                    navigate("/");
+                    window.location.reload();
+                  }}
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                >
+                  Clear All Data
+                </button>
+              </l>
+            </ul>
           </div>
         </div>
       </nav>

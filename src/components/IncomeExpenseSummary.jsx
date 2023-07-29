@@ -30,16 +30,14 @@ const IncomeExpenseSummary = () => {
       title: "Income",
       dataIndex: "income",
       sorter: {
-        compare: (a, b) => a.income - b.income,
-        multiple: 2,
+        compare: (a, b) => a.income - b.income
       },
     },
     {
       title: "Expenses",
       dataIndex: "expenses",
       sorter: {
-        compare: (a, b) => a.amount - b.amount,
-        multiple: 2,
+        compare: (a, b) => a.expenses - b.expenses
       },
     },
   ];
@@ -66,7 +64,7 @@ const IncomeExpenseSummary = () => {
             <div className="col">
               <Table
                 columns={columns}
-                dataSource={allData}
+                dataSource={allData?.reverse()}
                 onChange={onChange}
                 pagination={{
                   pageSize: 10,

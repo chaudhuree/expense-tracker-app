@@ -26,8 +26,7 @@ const DataDetails = () => {
       title: "Amount",
       dataIndex: "amount",
       sorter: {
-        compare: (a, b) => a.amount - b.amount,
-        multiple: 2,
+        compare: (a, b) => a.amount - b.amount
       },
     },
   ];
@@ -77,7 +76,9 @@ const DataDetails = () => {
               columns={columns}
               dataSource={incomeData}
               onChange={onChange}
-              pagination={false}
+              pagination={{
+                pageSize: 5
+              }}
             />
 
             <p className="text-total mt-5">
@@ -88,7 +89,9 @@ const DataDetails = () => {
               columns={columns}
               dataSource={expenseData}
               onChange={onChange}
-              pagination={false}
+              pagination={{
+                pageSize: 5
+              }}
               size="small"
             />
           </div>

@@ -19,8 +19,7 @@ const IncomeDataForm = () => {
       title: "Amount",
       dataIndex: "amount",
       sorter: {
-        compare: (a, b) => a.amount - b.amount,
-        multiple: 2,
+        compare: (a, b) => a.amount - b.amount
       },
     },
     {
@@ -158,7 +157,9 @@ const IncomeDataForm = () => {
                   columns={columns}
                   dataSource={incomeData}
                   onChange={onChange}
-                  pagination={false}
+                  pagination={{
+                    pageSize: 4
+                  }}
                 />
               </div>
             )}
